@@ -1,0 +1,14 @@
+{
+  "version": "2.0",
+  "app_name": "quark",
+  "stages": {
+    "prod": {
+      "api_gateway_stage": "api",
+      "environment_variables": {
+        "DDB_TABLE_NAME": "quark",
+        "ALIAS_LENGTH": 10,
+        "ALIAS_RETRY": 3
+      }
+    }
+  }
+}
