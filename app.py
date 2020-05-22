@@ -25,7 +25,7 @@ def _not_found():
     return {'404': ':('}
 
 
-@app.route('/api/register', methods=['POST'])
+@app.route('/register', methods=['POST'])
 def _register():
     alias_retry = Config.alias_retry()
     alias_length = Config.alias_length()
