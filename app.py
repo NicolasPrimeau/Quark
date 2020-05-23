@@ -8,7 +8,7 @@ from chalicelib.alias import RandomAliasGenerator
 from chalicelib.config import Config
 from chalicelib.db import DDBClient
 from chalicelib.items import Registration, Alias
-from chalicelib.validation import is_registration_valid
+from chalicelib.validation import is_valid_registration
 
 app = Chalice(app_name='quark')
 
@@ -31,7 +31,7 @@ def _register():
     alias_retry = Config.alias_retry()
     alias_length = Config.alias_length()
     registration = Registration(**app.current_request.json_body)
-    if not is_registration_valid(registration):
+    if not is_valid_registration(registration):
         return Response(body=json.dumps({'alias': None}), status_code=HTTPStatus.BAD_REQUEST)
 
     item = Alias(alias=generator.generate_alias(alias_length), link=registration.link)
