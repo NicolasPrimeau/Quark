@@ -3,3 +3,6 @@ venv
 *.pyc
 .chalice/deployments/
 .chalice/venv/
+
+app/node_modules/
+app/public/build/
