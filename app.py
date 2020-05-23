@@ -8,6 +8,7 @@ from chalicelib.alias import RandomAliasGenerator
 from chalicelib.config import Config
 from chalicelib.db import DDBClient
 from chalicelib.items import Registration, Alias
+from chalicelib.validation import is_registration_valid
 
 app = Chalice(app_name='quark')
 
@@ -25,11 +26,14 @@ def _not_found():
     return {'404': ':('}
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/register', methods=['POST'], cors=True)
 def _register():
     alias_retry = Config.alias_retry()
     alias_length = Config.alias_length()
     registration = Registration(**app.current_request.json_body)
+    if not is_registration_valid(registration):
+        return Response(body=json.dumps({'alias': None}), status_code=HTTPStatus.BAD_REQUEST)
+
     item = Alias(alias=generator.generate_alias(alias_length), link=registration.link)
     cnt = 0
     while not db_client.put_new_redirect(item) and cnt < alias_retry:
@@ -44,7 +48,7 @@ def _register():
     return Response(body=json.dumps(asdict(item)), status_code=HTTPStatus.OK)
 
 
-@app.route('/l/{alias}', methods=['GET'])
+@app.route('/l/{alias}', methods=['GET'], cors=True)
 def _redirect(alias):
     item = db_client.get_redirect(alias=alias)
     return redirect_response(item.link) if item else redirect_response('/404')
