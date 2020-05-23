@@ -12,8 +12,7 @@ def main():
     args = parser.parse_args()
     host, link = args.host, args.link
     result = requests.post(f"{host}/register", json={"link": link})
-    print(result)
-    print(result.content)
+    print(f"{host}/l/{result.json()['alias']}")
 
 
 if __name__ == '__main__':
