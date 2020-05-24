@@ -16,6 +16,11 @@ generator = RandomAliasGenerator()
 db_client = DDBClient()
 
 
+@app.route('/check', methods=['GET'], cors=True)
+def _ping():
+    return Response(body="Ok", status_code=HTTPStatus.OK)
+
+
 @app.route('/register', methods=['POST'], cors=True)
 def _register():
     alias_retry = Config.alias_retry()
@@ -38,7 +43,7 @@ def _register():
     return Response(body=json.dumps(asdict(item)), status_code=HTTPStatus.OK)
 
 
-@app.route('/l/{alias}', methods=['GET'], cors=True)
+@app.route('/{alias}', methods=['GET'], cors=True)
 def _redirect(alias):
     item = db_client.get_redirect(alias=alias)
     return redirect_response(item.link) if item else redirect_response('/404')
