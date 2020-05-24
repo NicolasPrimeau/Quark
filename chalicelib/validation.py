@@ -10,7 +10,7 @@ def has_valid_host(url_parts: ParseResult) -> bool:
 
 
 def is_valid_protocol(url_parts: ParseResult):
-    return url_parts.scheme in _ACCEPTED_SCHEMES
+    return not url_parts.scheme or url_parts.scheme in _ACCEPTED_SCHEMES
 
 
 def is_valid_registration(registration: Registration) -> bool:

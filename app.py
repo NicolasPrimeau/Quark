@@ -16,16 +16,6 @@ generator = RandomAliasGenerator()
 db_client = DDBClient()
 
 
-@app.route('/')
-def _index():
-    return {'hello': 'world'}
-
-
-@app.route('/404')
-def _not_found():
-    return {'404': ':('}
-
-
 @app.route('/register', methods=['POST'], cors=True)
 def _register():
     alias_retry = Config.alias_retry()
