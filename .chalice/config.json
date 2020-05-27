@@ -5,7 +5,7 @@
     "dev": {
       "environment_variables": {
         "DDB_TABLE_NAME": "quark",
-        "ALIAS_LENGTH": "10",
+        "ALIAS_LENGTH": "5",
         "ALIAS_RETRY": "3"
       }
     }
